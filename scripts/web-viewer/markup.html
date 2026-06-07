@@ -13,7 +13,10 @@
         <button class="mode-tab" data-mode="work" onclick="setBrowseMode('work')"><span class="mode-dot" data-dot="work"></span>יצירות</button>
       </div>
     </div>
-    <input id="search" type="search" placeholder="חיפוש ערך..." oninput="onSearchInput(this.value)">
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="חיפוש ערך..." oninput="onSearchInput(this.value)">
+      <button type="button" class="search-clear" onclick="clearSearch()" aria-label="נקה חיפוש">×</button>
+    </div>
     <div id="entry-count"></div>
   </div>
   <div id="category-matches"></div>

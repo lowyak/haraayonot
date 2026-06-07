@@ -180,6 +180,13 @@ function onSearchInput(q) {
   }
 }
 
+function clearSearch() {
+  var input = document.getElementById('search');
+  input.value = '';
+  input.focus();
+  onSearchInput('');
+}
+
 function setBrowseMode(mode) {
   var search = document.getElementById('search');
   // Going back to "ערכים" carries over whatever you were searching; switching
