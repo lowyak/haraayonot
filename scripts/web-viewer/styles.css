@@ -54,7 +54,7 @@
     .mode-tab-row .mode-tab { flex: 1 1 0; }
     .mode-tab {
       padding: 5px 4px; font-size: 0.72rem; font-family: inherit;
-      background: #1a1408; border: 1px solid #5a4820; color: #a08040;
+      background: #1a1408; border: 1px solid #5a4820; color: #b89858;
       border-radius: 4px; cursor: pointer; transition: all 0.1s; text-align: center;
       display: flex; align-items: center; justify-content: center;
     }
@@ -78,7 +78,7 @@
     .mode-dot[data-dot="person"]     { background: #7ba8c8; }
     .mode-dot[data-dot="work"]       { background: #c8a060; }
 
-    #entry-count { font-size: 0.73rem; color: #7a6840; margin-top: 6px; text-align: center; }
+    #entry-count { font-size: 0.73rem; color: #928058; margin-top: 6px; text-align: center; }
 
     #category-matches { padding: 10px 14px 0; }
     #category-matches:empty { display: none; padding: 0; }

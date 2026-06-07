@@ -430,6 +430,8 @@ function searchRef(term) {
 renderList(ENTRIES);
 
 document.addEventListener('keydown', function(e) {
+  var tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea') return;
   if (!currentId) { if (filtered.length > 0) showEntry(filtered[0].slug); return; }
   var idx = filtered.findIndex(function(en) { return en.slug === currentId; });
   if (e.key === 'ArrowDown' && idx < filtered.length - 1) { e.preventDefault(); showEntry(filtered[idx+1].slug); scrollActiveIntoView(); }
