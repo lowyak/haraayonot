@@ -1,0 +1,29 @@
+<div id="sidebar">
+  <div id="sidebar-header">
+    <h1>האנציקלופדיה של הרעיונות</h1>
+    <div class="sidebar-subtitle">תרבות, מחשבה, תקשורת</div>
+    <div id="mode-tabs">
+      <button class="mode-tab mode-tab-main active" data-mode="entries" onclick="setBrowseMode('entries')">
+        <span class="mode-dot" data-dot="entries"></span>ערכים
+      </button>
+      <div class="mode-tab-row">
+        <button class="mode-tab" data-mode="discipline" onclick="setBrowseMode('discipline')"><span class="mode-dot" data-dot="discipline"></span>תחומים</button>
+        <button class="mode-tab" data-mode="emotion" onclick="setBrowseMode('emotion')"><span class="mode-dot" data-dot="emotion"></span>רגשות</button>
+        <button class="mode-tab" data-mode="person" onclick="setBrowseMode('person')"><span class="mode-dot" data-dot="person"></span>אישים</button>
+        <button class="mode-tab" data-mode="work" onclick="setBrowseMode('work')"><span class="mode-dot" data-dot="work"></span>יצירות</button>
+      </div>
+    </div>
+    <input id="search" type="search" placeholder="חיפוש ערך..." oninput="onSearchInput(this.value)">
+    <div id="entry-count"></div>
+  </div>
+  <div id="category-matches"></div>
+  <div id="entry-list"></div>
+</div>
+
+<div id="main">
+  <div id="placeholder">
+    <span class="aleph">א</span>
+    <span>בחר ערך מהרשימה</span>
+  </div>
+  <div id="content" style="display:none"></div>
+</div>
