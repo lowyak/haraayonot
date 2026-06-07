@@ -29,6 +29,28 @@ function isEnglishLine(s) {
   return latin > hebrew && latin > 3;
 }
 
+// Cross-ref labels are the wording an in-body link used at the point it
+// appeared (e.g. a plural or inflected form), not the title of the entry it
+// links to \u2014 find that link in the entry's own body to recover the target.
+function resolveCrossRef(entry, refText) {
+  if (!entry.body_blocks) return null;
+  for (var i = 0; i < entry.body_blocks.length; i++) {
+    var block = entry.body_blocks[i];
+    var segLists = block.type === 'list' ? block.items : [block.segments];
+    for (var j = 0; j < segLists.length; j++) {
+      var segs = segLists[j];
+      if (!segs) continue;
+      for (var k = 0; k < segs.length; k++) {
+        var seg = segs[k];
+        if (seg.href && seg.slug && (seg.text || '').trim() === refText && ENTRY_BY_SLUG[seg.slug]) {
+          return ENTRY_BY_SLUG[seg.slug];
+        }
+      }
+    }
+  }
+  return null;
+}
+
 var CATEGORY_FIELD = { discipline: 'disciplines', emotion: 'emotions', person: 'people', work: 'works' };
 var CATEGORY_LABEL = { discipline: 'תחומים', emotion: 'רגשות', person: 'אישים', work: 'יצירות' };
 
@@ -364,6 +386,11 @@ function showEntry(id) {
   if (entry.cross_refs && entry.cross_refs.length) {
     html += '<div class="section-label">ראו גם</div><div class="tags-row">' +
       entry.cross_refs.slice(0, 20).map(function(r) {
+        var target = resolveCrossRef(entry, r);
+        if (target) {
+          return '<span class="tag xref" data-slug="' + esc(target.slug) +
+            '" onclick="showEntry(this.dataset.slug)">' + esc(target.title_he) + '</span>';
+        }
         return '<span class="tag xref" data-ref="' + esc(r) + '" onclick="searchRef(this.dataset.ref)">' + esc(r) + '</span>';
       }).join('') + '</div>';
   }
