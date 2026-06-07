@@ -1,0 +1,12 @@
+{
+  "name": "encyclopedia-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "build": "node scripts/generate-web-viewer.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
