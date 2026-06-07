@@ -268,12 +268,7 @@ function showCategoryFromTag(type, value) {
   search.placeholder = 'חיפוש ב' + CATEGORY_LABEL[type] + '...';
   document.getElementById('category-matches').innerHTML = '';
   openCategory(type, value);
-
-  // On the stacked mobile layout the sidebar sits above #main, so jumping into
-  // a category from an entry leaves the user scrolled past the search box.
-  if (window.innerWidth <= 680) {
-    search.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  scrollSidebarToTopOnMobile();
 }
 
 function showCategoryListMode(type, value) {
@@ -408,13 +403,21 @@ function showEntry(id) {
   document.getElementById('placeholder').style.display = 'none';
   content.style.display = 'block';
   content.innerHTML = html;
-  document.getElementById('main').scrollTop = 0;
+  if (isMobileLayout()) {
+    // On the stacked mobile layout #main no longer scrolls on its own — the
+    // page does — so land on the entry's own start (its image) rather than
+    // wherever the previous article happened to leave the scroll position.
+    content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    document.getElementById('main').scrollTop = 0;
+  }
 }
 
 function searchRef(term) {
   var input = document.getElementById('search');
   input.value = term;
   filterEntries(term);
+  scrollSidebarToTopOnMobile();
 }
 
 renderList(ENTRIES);
@@ -429,4 +432,17 @@ document.addEventListener('keydown', function(e) {
 function scrollActiveIntoView() {
   var el = document.querySelector('.entry-item.active');
   if (el) el.scrollIntoView({ block: 'nearest' });
+}
+
+function isMobileLayout() {
+  return window.innerWidth <= 680;
+}
+
+function scrollSidebarToTopOnMobile() {
+  // On the stacked mobile layout, jumping into a category or "ראו גם" ref
+  // from within an entry should bring the sidebar — title included — back
+  // into view rather than leaving the user scrolled into #main.
+  if (isMobileLayout()) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
