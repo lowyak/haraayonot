@@ -223,6 +223,8 @@
       padding-bottom: 12px; border-bottom: 2px solid #8b6914;
       direction: rtl; unicode-bidi: plaintext;
     }
+    .list-mode-cat-link { cursor: pointer; text-decoration: underline; }
+    .list-mode-cat-link:hover { color: #d4a84b; }
     .list-mode-item {
       padding: 12px 6px; cursor: pointer;
       border-bottom: 1px solid #d4b870; transition: background 0.1s;

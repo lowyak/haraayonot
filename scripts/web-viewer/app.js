@@ -305,11 +305,38 @@ function showCategoryListMode(type, value) {
   document.querySelectorAll('.entry-item').forEach(function(el) { el.classList.remove('active'); });
 
   var items = CATEGORY_INDEX[type][value] || [];
-  var html = '<div class="list-mode-breadcrumb">ערכים&gt;' + esc(CATEGORY_LABEL[type]) + '&gt;' + esc(value) + '</div>' +
+  var html = '<div class="list-mode-breadcrumb">ערכים לפי ' +
+      '<span class="list-mode-cat-link" data-type="' + esc(type) + '" onclick="showCategoryTypeListMode(this.dataset.type)">' +
+        esc(CATEGORY_LABEL[type]) + '</span>' +
+      ' &gt; ' + esc(value) + '</div>' +
     items.map(function(e) {
       return '<div class="list-mode-item" data-id="' + esc(e.slug) + '" onclick="showEntry(this.dataset.id)">' +
         '<div class="he-title">' + esc(e.title_he) + '</div>' +
         (e.title_en ? '<div class="en-title">' + esc(e.title_en) + '</div>' : '') +
+        '</div>';
+    }).join('');
+
+  var content = document.getElementById('content');
+  document.getElementById('placeholder').style.display = 'none';
+  content.style.display = 'block';
+  content.innerHTML = html;
+  document.getElementById('main').scrollTop = 0;
+}
+
+function showCategoryTypeListMode(type) {
+  currentId = null;
+  document.querySelectorAll('.entry-item').forEach(function(el) { el.classList.remove('active'); });
+
+  var index = CATEGORY_INDEX[type];
+  var values = Object.keys(index).sort(function(a, b) {
+    return index[b].length - index[a].length || a.localeCompare(b, 'he');
+  });
+  var html = '<div class="list-mode-breadcrumb">ערכים לפי ' + esc(CATEGORY_LABEL[type]) + '</div>' +
+    values.map(function(v) {
+      return '<div class="list-mode-item" data-type="' + esc(type) + '" data-value="' + esc(v) +
+        '" onclick="showCategoryListMode(this.dataset.type, this.dataset.value)">' +
+        '<div class="he-title">' + esc(v) + '</div>' +
+        '<div class="cat-count">' + index[v].length + ' ערכים</div>' +
         '</div>';
     }).join('');
 
