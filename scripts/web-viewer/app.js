@@ -31,7 +31,7 @@ function isEnglishLine(s) {
 
 // Cross-ref labels are the wording an in-body link used at the point it
 // appeared (e.g. a plural or inflected form), not the title of the entry it
-// links to \u2014 find that link in the entry's own body to recover the target.
+// links to - find that link in the entry's own body to recover the target.
 function resolveCrossRef(entry, refText) {
   if (!entry.body_blocks) return null;
   for (var i = 0; i < entry.body_blocks.length; i++) {
@@ -361,9 +361,13 @@ function showEntry(id) {
   if (entry.quotes && entry.quotes.length) {
     html += '<div class="section-label">פתיחה במובאות</div><div class="quotes">' +
       entry.quotes.map(function(q) {
+        // The credit sits on the side opposite to where the quote itself
+        // starts, mirroring its language direction (Hebrew quote -> right,
+        // credit on the left; foreign-language quote -> left, credit on the right).
+        var sourceAlign = isEnglishLine(q.text) ? 'align-right' : 'align-left';
         return '<div class="quote-item">' +
           '<div class="quote-text">' + esc(q.text) + '</div>' +
-          (q.source ? '<div class="quote-source">' + esc(q.source) + '</div>' : '') +
+          (q.source ? '<div class="quote-source ' + sourceAlign + '">' + esc(q.source) + '</div>' : '') +
           '</div>';
       }).join('') + '</div>';
   }
@@ -375,6 +379,12 @@ function showEntry(id) {
           return '<ul>' + block.items.map(function(segs) {
             return '<li>' + renderSegments(segs) + '</li>';
           }).join('') + '</ul>';
+        }
+        if (block.type === 'poem') {
+          return '<div class="poem">' +
+            block.lines.map(function(line) { return esc(line) + '<br>'; }).join('') +
+            (block.credit ? '<div class="poem-credit">' + esc(block.credit) + '</div>' : '') +
+            '</div>';
         }
         return '<p>' + renderSegments(block.segments) + '</p>';
       }).join('') + '</div>';
