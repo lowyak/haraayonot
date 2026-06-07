@@ -376,14 +376,18 @@ function showEntry(id) {
     html += '<div class="section-label">ערך</div><div class="body-text">' +
       entry.body_blocks.map(function(block) {
         if (block.type === 'list') {
-          return '<ul>' + block.items.map(function(segs) {
+          var listClass = block.style === 'lettered' ? ' class="lettered-list"' : '';
+          return '<ul' + listClass + '>' + block.items.map(function(segs) {
             return '<li>' + renderSegments(segs) + '</li>';
           }).join('') + '</ul>';
         }
         if (block.type === 'poem') {
+          // Same opposite-side alignment rule as quote credits, judged by
+          // the poem's own language rather than the page's base direction.
+          var creditAlign = isEnglishLine(block.lines.join(' ')) ? 'align-right' : 'align-left';
           return '<div class="poem">' +
             block.lines.map(function(line) { return esc(line) + '<br>'; }).join('') +
-            (block.credit ? '<div class="poem-credit">' + esc(block.credit) + '</div>' : '') +
+            (block.credit ? '<div class="poem-credit ' + creditAlign + '">' + esc(block.credit) + '</div>' : '') +
             '</div>';
         }
         return '<p>' + renderSegments(block.segments) + '</p>';
