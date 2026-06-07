@@ -268,6 +268,12 @@ function showCategoryFromTag(type, value) {
   search.placeholder = 'חיפוש ב' + CATEGORY_LABEL[type] + '...';
   document.getElementById('category-matches').innerHTML = '';
   openCategory(type, value);
+
+  // On the stacked mobile layout the sidebar sits above #main, so jumping into
+  // a category from an entry leaves the user scrolled past the search box.
+  if (window.innerWidth <= 680) {
+    search.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 function showCategoryListMode(type, value) {
